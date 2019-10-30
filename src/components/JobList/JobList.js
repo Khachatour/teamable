@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
+import { isEmpty } from '../../utils'
 import { Link } from 'react-router-dom'
+import { useSelector } from 'react-redux'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
+import { getAllJobs } from '../../redux/selectors'
 import { makeStyles } from '@material-ui/core/styles'
 import Typography from '@material-ui/core/Typography'
 import CardActions from '@material-ui/core/CardActions'
@@ -32,13 +35,8 @@ const useStyles = makeStyles({
 })
 
 const JobList = () => {
-  const [jobs, setJobs] = useState(null)
+  const jobs = useSelector(getAllJobs)
   const classes = useStyles()
-  // useEffect(() => {
-  //   fetch('https://tutamen.serveo.net/jobs')
-  //     .then(data => data.json())
-  //     .then(setJobs)
-  // }, [])
 
   if (!jobs) {
     return null
@@ -70,14 +68,19 @@ const JobList = () => {
             </Typography>
           </CardContent>
           <CardActions>
-            <Link to={`/jobs/${job.id}`} className="link">
+            <Link to={`/job/${job.id}`} className="link">
               <Button variant="contained" size="small">
-                Edit
+                View Job
               </Button>
             </Link>
           </CardActions>
         </Card>
       ))}
+      <Card className={classes.card}>
+        <CardContent className="add-job" onClick={console.log}>
+          +
+        </CardContent>
+      </Card>
     </div>
   )
 }
