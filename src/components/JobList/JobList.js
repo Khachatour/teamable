@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 import { isEmpty } from '../../utils'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { useSelector, useDispatch } from 'react-redux'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
@@ -36,11 +36,14 @@ const useStyles = makeStyles({
 })
 
 const JobList = () => {
+  const history = useHistory()
   const jobs = useSelector(getAllJobs)
   const dispatch = useDispatch()
   const [urgencyStatus, setUrgencyStatus] = useState(false)
   const setUrgency = () => setUrgencyStatus(!urgencyStatus)
   const classes = useStyles()
+
+  const onCreate = () => history.push('/create')
 
   useEffect(() => {
     dispatch({ type: 'FETCH_JOBS' })
@@ -96,7 +99,7 @@ const JobList = () => {
             </Card>
           ))}
         <Card className={classes.card}>
-          <CardContent className="add-job" onClick={console.log}>
+          <CardContent className="add-job" onClick={onCreate}>
             +
           </CardContent>
         </Card>

@@ -8,10 +8,14 @@ import Button from '@material-ui/core/Button'
 import JobList from './components/JobList'
 import EditJob from './components/EditJob'
 import SingleJob from './components/SingleJob'
+import CreateJob from './components/CreateJob'
 
 const Teamable = () => (
   <Router>
     <Switch>
+      <Route path="/create">
+        <CreateJob />
+      </Route>
       <Route path="/edit-job/:id">
         <EditJob />
       </Route>
