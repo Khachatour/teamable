@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 
 import { isEmpty } from '../../utils'
 import { Link } from 'react-router-dom'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Card from '@material-ui/core/Card'
 import Button from '@material-ui/core/Button'
 import Switch from '@material-ui/core/Switch'
@@ -37,9 +37,14 @@ const useStyles = makeStyles({
 
 const JobList = () => {
   const jobs = useSelector(getAllJobs)
+  const dispatch = useDispatch()
   const [urgencyStatus, setUrgencyStatus] = useState(false)
   const setUrgency = () => setUrgencyStatus(!urgencyStatus)
   const classes = useStyles()
+
+  useEffect(() => {
+    dispatch({ type: 'FETCH_JOBS' })
+  }, [])
 
   if (!jobs) {
     return null
