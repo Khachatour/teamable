@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { useParams, useHistory } from 'react-router-dom'
 import { getSingleJob } from '../../redux/selectors'
 
 import { Link } from 'react-router-dom'
@@ -35,9 +35,16 @@ const createData = (title, location, bonus, urgent) => ({
 })
 
 const SingleJob = () => {
+  const history = useHistory()
   const { id: jobId } = useParams()
   const job = useSelector(getSingleJob(jobId))
   const classes = useStyles()
+
+  const remove = () => {
+    fetch(`https://tutamen.serveo.net/jobs/${jobId}`, {
+      method: 'DELETE'
+    }).then(() => history.push('/'))
+  }
 
   if (!job) {
     return null
@@ -67,11 +74,21 @@ const SingleJob = () => {
           </TableBody>
         </Table>
       </Paper>
-      <Link to={`/edit-job/${job.id}`} className="link">
-        <Button variant="contained" size="small">
-          Edit Job
+      <div className="button-wrapper">
+        <Link to={`/edit-job/${job.id}`} className="link">
+          <Button variant="contained" size="small">
+            Edit Job
+          </Button>
+        </Link>
+        <Button
+          className="delete"
+          size="small"
+          onClick={remove}
+          variant="contained"
+        >
+          Delete
         </Button>
-      </Link>
+      </div>
     </div>
   )
 }
